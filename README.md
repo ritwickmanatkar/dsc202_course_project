@@ -26,6 +26,6 @@ Next you can upload the data onto neo4j as a graph by executing the following co
 LOAD CSV WITH HEADERS FROM 'file:/santa_barbara_distance_graph.csv' as row <br>
 MERGE (r1:Restaurant {id: row.restaurant_from})<br>
 MERGE (r2:Restaurant {id: row.restaurant_to})<br>
-MERGE (r1)-[:distance{value: row.distance}]->(r2)<br>
-
+MERGE (r1)-[:distance{dist: toFloat(row.distance)}]->(r2)<br>
+MERGE (r2)-[:distance{dist: toFloat(row.distance)}]->(r1)<br>
 <hr>
