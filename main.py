@@ -4,7 +4,7 @@ from connectors.neo4j_connector import get_neo4j_connection
 
 from queries.query1 import check_if_open_and_get_tips
 from queries.query3 import get_pictures_and_reviews_for_italian
-from pdf_writer import pretty_print_given_information
+from pretty_printer import pretty_print_given_information
 
 if __name__ == '__main__':
     # Create connections to the data sources.
