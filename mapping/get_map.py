@@ -44,7 +44,7 @@ def create_map(longitude, latitude):
 
     # Add markers for each point
     for point in points:
-        folium.Marker(location=[point[1], point[0]]).add_to(m)
+        folium.Marker(location=[point[1], point[0]], icon=folium.Icon(color = 'orange')).add_to(m)
 
     folium.Marker(location=[your_location[1], your_location[0]], popup='You are here',
                   icon=folium.Icon(color='red', icon='info-sign')).add_to(m)
