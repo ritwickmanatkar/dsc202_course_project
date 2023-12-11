@@ -1,15 +1,23 @@
-""" This file stores the code used for Query 1."""
-from typing import List, Dict
+""" This file stores the code used for Query 4."""
 import pandas as pd
 import webbrowser
-from mapping.get_map import create_map 
+
+from mapping.get_map import create_map
+from alter_html import alter_html
+
 
 def get_top_rated_restaurant_and_parking(
         postgresql_cursor,
         neo4j_session_object,
-        mongo_client,
-        cuisine: str):
-    """
+        cuisine: str
+) -> None:
+    """ This function stores the code used for query 4.
+
+    NOTE:
+        Are there any parking structures near highly rated Japanese restaurants?
+        ---> Utilizes: Graph database (for cuisine category)
+        and spatial database (for public transport information). (extra credit)
+
     :param postgresql_cursor: Cursor of the Postgresql Connection
     :param neo4j_session_object: Session object of the Neo4j Connection
     :param cuisine: Cuisine Selected by the user.
@@ -24,9 +32,8 @@ def get_top_rated_restaurant_and_parking(
     """
     neo4j_result = neo4j_session_object.run(neo4j_query).data()
 
-    output = []
     for restaurant_info in neo4j_result:
-        postgresql_query = f""" 
+        postgresql_query = f"""
         SELECT * FROM santa_barbara_restaurants WHERE business_id = '{restaurant_info.get('restaurant').get('id')}'; """
         postgresql_cursor.execute(postgresql_query)
         postgresql_query_result = postgresql_cursor.fetchall()
@@ -36,6 +43,8 @@ def get_top_rated_restaurant_and_parking(
         restaurant_output = df.to_dict('records')[0]
 
         map = create_map(restaurant_output.get("longitude"), restaurant_output.get("latitude"))
-        map.save("my_map.html")
+        map.save("query_4_result.html")
 
-        webbrowser.open("my_map.html")
+        alter_html("query_4_result.html", restaurant_output)
+
+        webbrowser.open("query_4_result.html")
