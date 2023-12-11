@@ -85,7 +85,10 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
             ('date', pymongo.DESCENDING)
         ]
     )
-    output['reviews'] = mongodb_result[:5]
+    temp = []
+    for document in mongodb_result:
+        temp.append(document)
+    output['reviews'] = temp
 
     return output
 
