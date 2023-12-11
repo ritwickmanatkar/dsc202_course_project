@@ -1,6 +1,8 @@
 /auth/connector_auth.py
 /.ipynb_checkpoints
-/auth/__pychache__
+/auth/__pycache__
 /auth/.ipynb_checkpoints
-/connectors/__pychache__
+/connectors/__pycache__
 /connectors/.ipynb_checkpoints
+/data/santa_barbara_reviews.json
+test.py
