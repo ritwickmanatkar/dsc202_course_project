@@ -6,3 +6,6 @@
 /connectors/.ipynb_checkpoints
 /data/santa_barbara_reviews.json
 test.py
+__pycache__
+/mapping/__pycache__
+/queries/__pycache__

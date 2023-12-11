@@ -4,6 +4,7 @@ from connectors.neo4j_connector import get_neo4j_connection
 
 from queries.query1 import check_if_open_and_get_tips
 from queries.query3 import get_pictures_and_reviews_for_italian
+from queries.query4 import get_top_rated_restaurant_and_parking
 from pretty_printer import pretty_print_given_information
 
 if __name__ == '__main__':
@@ -37,6 +38,16 @@ if __name__ == '__main__':
         for result in query3_result:
             pretty_print_given_information(result)
             print('\n'*5)
+
+        print('Query #4:')
+        query4_result = (
+            get_top_rated_restaurant_and_parking(
+                postgresql_cursor=postgresql_cursor,
+                neo4j_session_object=neo4j_session_object,
+                mongo_client=mongodb_db,
+                cuisine='Japanese'
+            )
+        )
 
     except Exception as error:
         raise Exception(error)
