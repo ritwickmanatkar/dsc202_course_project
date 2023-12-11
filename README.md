@@ -28,4 +28,11 @@ MERGE (r1:Restaurant {id: row.restaurant_from})<br>
 MERGE (r2:Restaurant {id: row.restaurant_to})<br>
 MERGE (r1)-[:distance{dist: toFloat(row.distance)}]->(r2)<br>
 MERGE (r2)-[:distance{dist: toFloat(row.distance)}]->(r1)<br>
+
+<br>
+
+LOAD CSV WITH HEADERS FROM 'file:/santa_barbara_restaurant_categories.csv' as row <br>
+MERGE (r:Restaurant {id: row.business_id}) <br>
+MERGE (c:Category {id: row.category}) <br>
+MERGE (r)-[:rating{value: toFloat(row.weighted_rating)}]->(c) <br>
 <hr>
