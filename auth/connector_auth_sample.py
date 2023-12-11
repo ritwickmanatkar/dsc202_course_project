@@ -1,0 +1,14 @@
+# NEO4J AUTH
+neo4j_user = 'YOUR USERNAME'
+neo4j_password = "YOUR PASSWORD"
+
+# RDBMS AUTH
+POSTGRES_DBNAME = "postgres"
+POSTGRES_USER = 'YOUR USERNAME'
+POSTGRES_PASSWORD = "YOUR PASSWORD"
+POSTGRES_HOST = "localhost"
+POSTGRES_PORT = 5432
+
+# MONGO AUTH
+mongo_host = 'localhost'
+mongo_port = 27017
