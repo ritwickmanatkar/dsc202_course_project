@@ -7,7 +7,7 @@ if __name__ == '__main__':
     mongo_client = get_mongo_connection()
     db = mongo_client['yelp_db']
     try:
-        df = pd.read_json(r'./../data_operations/santa_barbara_photos.json')
+        df = pd.read_json(r'../data/santa_barbara_photos.json')
 
         collection = db['santa_barbara_photos']
 
