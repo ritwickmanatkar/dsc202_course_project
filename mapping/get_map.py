@@ -12,14 +12,9 @@ def create_map(longitude, latitude):
 
     bus_stop_path = "data/sb_bus_stops/bus_stop_point.shp"
     bus_stop_df = gpd.read_file(bus_stop_path)
-
-    #bus_stop_df.to_postgis('busstops', engine, index=True, index_label='Index')
-
     parking_path = "data/sb_parking/parking_polygon.shp"
     parking_df = gpd.read_file(parking_path)
-
-    #parking_df.to_postgis('parking', engine, index=True, index_label='Index')
-
+    
     your_location = (longitude, latitude)
 
     query = text("""SELECT ST_AsText(ST_GeomFromWKB(decode(geometry, 'hex'))) FROM busstops

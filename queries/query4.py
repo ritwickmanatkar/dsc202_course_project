@@ -14,7 +14,7 @@ def get_top_rated_restaurant_and_parking(
     :param neo4j_session_object: Session object of the Neo4j Connection
     :param cuisine: Cuisine Selected by the user.
 
-    :return 
+    :return Open a map in the browser
     """
 
     neo4j_query = f"""MATCH (restaurant:Restaurant)-[x:rating]->(c:Category {{id: '{cuisine}'}})
@@ -23,8 +23,6 @@ def get_top_rated_restaurant_and_parking(
     LIMIT 1
     """
     neo4j_result = neo4j_session_object.run(neo4j_query).data()
-    #print('neo4j result: ', neo4j_result)
-    #print('\n\n')
 
     output = []
     for restaurant_info in neo4j_result:
@@ -33,14 +31,9 @@ def get_top_rated_restaurant_and_parking(
         postgresql_cursor.execute(postgresql_query)
         postgresql_query_result = postgresql_cursor.fetchall()
 
-        #print(postgresql_query_result)
-        #print('\n\n')
-
         column_names = [descriptor[0] for descriptor in postgresql_cursor.description]
         df = pd.DataFrame(postgresql_query_result, columns=column_names)
         restaurant_output = df.to_dict('records')[0]
-
-        print(restaurant_output)
 
         map = create_map(restaurant_output.get("longitude"), restaurant_output.get("latitude"))
         map.save("my_map.html")
