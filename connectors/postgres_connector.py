@@ -24,10 +24,3 @@ def get_postgresql_connection_object():
         port=POSTGRES_PORT
     )
     return POSTGRESQL_CONNECTION
-
-
-def get_postgresql_cursor_object():
-    if POSTGRESQL_CONNECTION is None:
-        return get_postgresql_connection_object().cursor()
-
-    return POSTGRESQL_CONNECTION.cursor()
