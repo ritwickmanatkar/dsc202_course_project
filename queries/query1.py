@@ -6,9 +6,6 @@ import ast
 import pandas as pd
 import pymongo
 
-from connectors.mongo_connector import get_mongo_connection
-from connectors.postgres_connector import get_postgresql_connection_object
-
 DAY_OF_THE_WEEK_MAPPER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 
@@ -57,7 +54,7 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
     :param postgresql_cursor: Cursor of the Postgresql Connection
     :param mongo_client: MongoDB Connection client
     :param restaurant_name: Restaurant Name
-    :return: json result as dict
+    :return: Dictionary which will be converted to json
     """
     # POSTGRESQL Execution
     postgresql_query = f""" SELECT * FROM santa_barbara_restaurants WHERE name = '{restaurant_name}'; """
@@ -67,13 +64,14 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
     column_names = [descriptor[0] for descriptor in postgresql_cursor.description]
     restaurant_info = pd.DataFrame(postgresql_query_result, columns=column_names)
 
-    # Get restaurant timings
-    restaurant_operating_hours = ast.literal_eval(restaurant_info.hours[0])
-
-    status = check_if_restaurant_is_open(restaurant_operating_hours)
-
+    # define the output dictionary
     output = restaurant_info.to_dict('records')[0]
-    output['status'] = status
+
+    if restaurant_info.is_open[0] == 1:
+        restaurant_operating_hours = ast.literal_eval(restaurant_info.hours[0])
+        output['status'] = check_if_restaurant_is_open(restaurant_operating_hours)
+    else:
+        output['status'] = False
 
     # MONGO DB Execution
     tips_collection = mongo_client['santa_barbara_tips']
@@ -84,11 +82,11 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
             ('compliment_count', pymongo.DESCENDING),
             ('date', pymongo.DESCENDING)
         ]
-    )
+    ).limit(5)
+    # Return the top 5 tips
     temp = []
     for document in mongodb_result:
         temp.append(document)
     output['reviews'] = temp
 
     return output
-
