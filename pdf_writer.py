@@ -44,7 +44,7 @@ def pretty_print_given_information(restaurant_info: Dict) -> None:
             print(f"\033[1mTips\033[0m :")
             for tip in value:
                 print(f"\t ---> \033[4m{tip.get('user_id')}\033[0m ~ {tip.get('date')} :")
-                print(f"\t \t \033[ Compliment Count\033[0m: {tip.get('compliment_count')}")
+                print(f"\t \t \033[4mCompliment Count\033[0m: {tip.get('compliment_count')}")
                 text = tip.get('text').replace('\n', '\n\t \t ')
                 print(f"\t \t {text}")
                 print('\t \t ' + '_' * 100)
