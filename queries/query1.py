@@ -9,12 +9,13 @@ import pymongo
 DAY_OF_THE_WEEK_MAPPER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 
-def check_if_restaurant_is_open(operating_hours: Dict):
+def check_if_restaurant_is_open(operating_hours: Dict) -> bool:
     """ This is a data specific function that check whether the restaurant is open or not given the operating hours and
     current timings.
 
     :param operating_hours: Dict containing the opening
-    :return:
+
+    :return: Boolean result with open status
     """
     # Get current timings
     time_now = datetime.datetime.now()
@@ -29,7 +30,7 @@ def check_if_restaurant_is_open(operating_hours: Dict):
             open_time = times.split('-')[0]
             close_time = times.split('-')[1]
 
-            if open_time == close_time: # For 00:00 - 00:00 service
+            if open_time == close_time:  # For 00:00 - 00:00 service
                 return True
             elif int(open_time.split(':')[0]) < current_hour < int(close_time.split(':')[0]):
                 return True
@@ -41,7 +42,7 @@ def check_if_restaurant_is_open(operating_hours: Dict):
     return False
 
 
-def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:str):
+def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name: str) -> Dict:
     """ This function serves as the 1st query of our course project.
 
     NOTE:
@@ -54,6 +55,7 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
     :param postgresql_cursor: Cursor of the Postgresql Connection
     :param mongo_client: MongoDB Connection client
     :param restaurant_name: Restaurant Name
+
     :return: Dictionary which will be converted to json
     """
     # POSTGRESQL Execution
@@ -87,6 +89,6 @@ def check_if_open_and_get_tips(postgresql_cursor, mongo_client, restaurant_name:
     temp = []
     for document in mongodb_result:
         temp.append(document)
-    output['reviews'] = temp
+    output['tips'] = temp
 
     return output
