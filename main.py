@@ -1,7 +1,10 @@
 from connectors.mongo_connector import get_mongo_connection
 from connectors.postgres_connector import get_postgresql_connection_object
-from queries.query1 import check_if_open_and_get_tips
+from connectors.neo4j_connector import get_neo4j_connection
 
+from queries.query1 import check_if_open_and_get_tips
+from queries.query3 import get_pictures_and_reviews_for_italian
+from pdf_writer import pretty_print_given_information
 
 if __name__ == '__main__':
     # Create connections to the data sources.
@@ -11,15 +14,32 @@ if __name__ == '__main__':
     mongo_client = get_mongo_connection()
     mongodb_db = mongo_client['yelp_db']
 
+    neo4j_session_object = get_neo4j_connection()
     try:
         print('Query #1:')
-        print(check_if_open_and_get_tips(
+        query1_result = check_if_open_and_get_tips(
             postgresql_cursor=postgresql_cursor,
             mongo_client=mongodb_db,
             restaurant_name='Helena Avenue Bakery'
-        ))
+        )
+        pretty_print_given_information(query1_result)
+        print('\n' * 5)
+
+        print('Query #3:')
+        query3_result = (
+            get_pictures_and_reviews_for_italian(
+                postgresql_cursor=postgresql_cursor,
+                neo4j_session_object=neo4j_session_object,
+                mongo_client=mongodb_db,
+                cuisine='Italian'
+            )
+        )
+        for result in query3_result:
+            pretty_print_given_information(result)
+            print('\n'*5)
+
     except Exception as error:
-        print(error)
+        raise Exception(error)
     finally:
         if postgresql_cursor is not None:
             postgresql_cursor.close()
@@ -27,3 +47,5 @@ if __name__ == '__main__':
             postgresql_connection_object.close()
         if mongo_client is not None:
             mongo_client.close()
+        if neo4j_session_object is not None:
+            neo4j_session_object.close()
