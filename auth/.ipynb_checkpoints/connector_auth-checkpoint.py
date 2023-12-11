@@ -1,11 +1,11 @@
 # NEO4J AUTH
-neo4j_user = 'ENTER YOUR USERNAME'
-neo4j_password = "ENTER YOUR PASSWORD"
+neo4j_user = 'neo4j'
+neo4j_password = "aseemaseem"
 
 # RDBMS AUTH
 POSTGRES_DBNAME = "postgres"
-POSTGRES_USER = "ENTER YOUR USERNAME"
-POSTGRES_PASSWORD = "ENTER YOUR PASSWORD"
+POSTGRES_USER = "postgres"
+POSTGRES_PASSWORD = "aseemaseem"
 POSTGRES_HOST = "localhost"
 POSTGRES_PORT = 5432
 
