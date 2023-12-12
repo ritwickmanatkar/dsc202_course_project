@@ -3,6 +3,7 @@ from connectors.postgres_connector import get_postgresql_connection_object
 from connectors.neo4j_connector import get_neo4j_connection
 
 from queries.query1 import check_if_open_and_get_tips
+from queries.query2 import get_top_rated_restaurant_near_me
 from queries.query3 import get_pictures_and_reviews_for_italian
 from queries.query4 import get_top_rated_restaurant_and_parking
 from pretty_printer import pretty_print_given_information
@@ -25,6 +26,18 @@ if __name__ == '__main__':
         )
         pretty_print_given_information(query1_result)
         print('\n' * 5)
+
+        print('Query #2:')
+        query2_result = (
+            get_top_rated_restaurant_near_me(
+                postgresql_cursor=postgresql_cursor,
+                neo4j_session_object=neo4j_session_object,
+                restaurant_name='Helena Avenue Bakery'
+            )
+        )
+        for result in query2_result:
+            pretty_print_given_information(result)
+            print('\n'*5)
 
         print('Query #3:')
         query3_result = (
