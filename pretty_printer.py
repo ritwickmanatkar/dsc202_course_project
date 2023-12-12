@@ -4,7 +4,7 @@ import ast
 from PIL import Image
 
 DAY_OF_THE_WEEK_MAPPER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-PHOTO_DIRECTORY_PATH = "/Users/ritwickmanatkar/Downloads/yelp_photos/photos/"
+PHOTO_DIRECTORY_PATH = "C:/Users/aseem/Downloads/UCSD/DSC_202/Project/yelp_datasets/photos1/"
 
 
 def pretty_print_given_information(restaurant_info: Dict) -> None:

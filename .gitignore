@@ -9,3 +9,4 @@ test.py
 __pycache__
 /mapping/__pycache__
 /queries/__pycache__
+demo.py
